@@ -1,0 +1,8 @@
+# Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Git files
+.git
+.gitignore
