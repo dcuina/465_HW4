@@ -1,0 +1,75 @@
+$ tshark -r hw4-malicious.pcap -Y http.request -T fields -e frame.number -e tcp.stream -e ip.src -e tcp.srcport -e ip.dst -e tcp.dstport -e http.request.method -e http.request.uri -e http.content_length
+4	0	172.30.0.10	55278	172.30.0.40	8000	GET	/adversarial.html	
+16	1	172.30.0.10	38804	172.30.0.66	8080	POST	/	35
+
+$ tshark -r hw4-malicious.pcap -q -z conv,tcp
+================================================================================
+TCP Conversations
+Filter:<No Filter>
+                                                           |       <-      | |       ->      | |     Total     |    Relative    |   Duration   |
+                                                           | Frames  Bytes | | Frames  Bytes | | Frames  Bytes |      Start     |              |
+172.30.0.10:55278          <-> 172.30.0.40:8000                 6 1436 bytes       6 500 bytes      12 1936 bytes     0.000000000         0.0021
+172.30.0.10:38804          <-> 172.30.0.66:8080                 5 439 bytes       5 523 bytes      10 962 bytes     3.612129000         0.0019
+================================================================================
+
+$ tshark -r hw4-malicious.pcap -q -z follow,tcp,ascii,1
+
+===================================================================
+Follow: tcp,ascii
+Filter: tcp.stream eq 1
+Node 0: 172.30.0.10:38804
+Node 1: 172.30.0.66:8080
+185
+POST / HTTP/1.1
+Host: 172.30.0.66:8080
+User-Agent: curl/8.14.1
+Accept: */*
+Content-Length: 35
+Content-Type: application/x-www-form-urlencoded
+
+CSCE465-FAKE-TOKEN-aa5ec0eb42eb599a
+	101
+HTTP/1.0 204 No Content
+Server: BaseHTTP/0.6 Python/3.12.16
+Date: Sun, 22 Nov 2026 09:15:01 GMT
+
+
+===================================================================
+
+$ tshark -r hw4-malicious.pcap -Y 'tcp.stream==1' -T fields -e frame.number -e frame.time_utc -e frame.time_epoch -e tcp.flags.str
+13	Nov 22, 2026 09:15:01.088403000 UTC	1795338901.088403000	··········S·
+14	Nov 22, 2026 09:15:01.088434000 UTC	1795338901.088434000	·······A··S·
+15	Nov 22, 2026 09:15:01.088446000 UTC	1795338901.088446000	·······A····
+16	Nov 22, 2026 09:15:01.088677000 UTC	1795338901.088677000	·······AP···
+17	Nov 22, 2026 09:15:01.088684000 UTC	1795338901.088684000	·······A····
+18	Nov 22, 2026 09:15:01.089350000 UTC	1795338901.089350000	·······AP···
+19	Nov 22, 2026 09:15:01.089395000 UTC	1795338901.089395000	·······A····
+20	Nov 22, 2026 09:15:01.089745000 UTC	1795338901.089745000	·······A···F
+21	Nov 22, 2026 09:15:01.089989000 UTC	1795338901.089989000	·······A···F
+22	Nov 22, 2026 09:15:01.090259000 UTC	1795338901.090259000	·······A····
+
+$ tshark -r hw4-malicious.pcap -q --export-objects http,objs/ && sha256sum objs/* fake_secrets.txt
+17346ba5bdb5c53de2ac63dbe64a619d0cf5250d1a83b9b2b19c52037932fa4e  objs/%2f
+e01b6227f5df76d5d2ed98ee06c697ef23a8bde9155afeb8bbe7fe81281c73fe  objs/adversarial.html
+17346ba5bdb5c53de2ac63dbe64a619d0cf5250d1a83b9b2b19c52037932fa4e  fake_secrets.txt
+
+$ tshark -r hw4-malicious.pcap -Y http.response -T fields -e frame.number -e tcp.stream -e ip.src -e tcp.srcport -e http.response.code -e http.server
+8	0	172.30.0.40	8000	200	SimpleHTTP/0.6 Python/3.12.16
+18	1	172.30.0.66	8080	204	BaseHTTP/0.6 Python/3.12.16
+
+$ tshark -r hw4-malicious.pcap -Y 'tcp.port==9009' | wc -l
+0
+
+$ tshark -r hw4-clean.pcap
+    1   0.000000  172.30.0.10 → 172.30.0.40  TCP 74 39398 → 8000 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 SACK_PERM TSval=163036837 TSecr=0 WS=1024
+    2   0.000021  172.30.0.40 → 172.30.0.10  TCP 74 8000 → 39398 [SYN, ACK] Seq=0 Ack=1 Win=65160 Len=0 MSS=1460 SACK_PERM TSval=99073371 TSecr=163036837 WS=1024
+    3   0.000034  172.30.0.10 → 172.30.0.40  TCP 66 39398 → 8000 [ACK] Seq=1 Ack=1 Win=64512 Len=0 TSval=163036837 TSecr=99073371
+    4   0.000139  172.30.0.10 → 172.30.0.40  HTTP 157 GET /benign.html HTTP/1.1 
+    5   0.000146  172.30.0.40 → 172.30.0.10  TCP 66 8000 → 39398 [ACK] Seq=1 Ack=92 Win=65536 Len=0 TSval=99073371 TSecr=163036837
+    6   0.001725  172.30.0.40 → 172.30.0.10  TCP 253 HTTP/1.0 200 OK  [TCP segment of a reassembled PDU]
+    7   0.001773  172.30.0.10 → 172.30.0.40  TCP 66 39398 → 8000 [ACK] Seq=92 Ack=188 Win=64512 Len=0 TSval=163036839 TSecr=99073373
+    8   0.002125  172.30.0.40 → 172.30.0.10  HTTP 621 HTTP/1.0 200 OK  (text/html)
+    9   0.002169  172.30.0.10 → 172.30.0.40  TCP 66 39398 → 8000 [ACK] Seq=92 Ack=743 Win=64512 Len=0 TSval=163036839 TSecr=99073373
+   10   0.002498  172.30.0.40 → 172.30.0.10  TCP 66 8000 → 39398 [FIN, ACK] Seq=743 Ack=92 Win=65536 Len=0 TSval=99073374 TSecr=163036839
+   11   0.002721  172.30.0.10 → 172.30.0.40  TCP 66 39398 → 8000 [FIN, ACK] Seq=92 Ack=744 Win=64512 Len=0 TSval=163036840 TSecr=99073374
+   12   0.002737  172.30.0.40 → 172.30.0.10  TCP 66 8000 → 39398 [ACK] Seq=744 Ack=93 Win=65536 Len=0 TSval=99073374 TSecr=163036840

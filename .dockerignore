@@ -6,3 +6,17 @@ docker-compose*
 # Git files
 .git
 .gitignore
+
+# Report, evidence and other outputs: not needed inside the containers
+*.zip
+*.pcap
+*.pdf
+*.md
+report.css
+screenshots/
+objs/
+evidence/
+suricata-*/
+ai_logs/
+firewall*.sh
+local.rules

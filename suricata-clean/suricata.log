@@ -1,0 +1,18 @@
+[1557 - Suricata-Main] 2026-11-23 00:15:00 Notice: suricata: This is Suricata version 7.0.3 RELEASE running in USER mode
+[1557 - Suricata-Main] 2026-11-23 00:15:00 Info: cpu: CPUs/cores online: 2
+[1557 - Suricata-Main] 2026-11-23 00:15:00 Info: suricata: Setting engine mode to IDS mode by default
+[1557 - Suricata-Main] 2026-11-23 00:15:00 Info: exception-policy: master exception-policy set to: auto
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: logopenfile: fast output device (regular) initialized: fast.log
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: logopenfile: eve-log output device (regular) initialized: eve.json
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: logopenfile: stats output device (regular) initialized: stats.log
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: detect: 1 rule files processed. 3 rules successfully loaded, 0 rules failed, 0
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: threshold-config: Threshold config parsed: 0 rule(s) found
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: detect: 3 signatures processed. 0 are IP-only rules, 0 are inspecting packet payload, 2 inspect application layer, 0 are decoder event only
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: unix-manager: unix socket '/var/run/suricata-command.socket'
+[1558 - RX#01] 2026-11-23 00:15:01 Info: pcap: Starting file run for hw4-clean.pcap
+[1558 - RX#01] 2026-11-23 00:15:01 Info: pcap: pcap file hw4-clean.pcap end of file reached (pcap err code 0)
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Notice: threads: Threads created -> RX: 1 W: 2 FM: 1 FR: 1   Engine started.
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Notice: suricata: Signal Received.  Stopping engine.
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: suricata: time elapsed 0.020s
+[1558 - RX#01] 2026-11-23 00:15:01 Notice: pcap: read 1 file, 12 packets, 1641 bytes
+[1557 - Suricata-Main] 2026-11-23 00:15:01 Info: counters: Alerts: 0

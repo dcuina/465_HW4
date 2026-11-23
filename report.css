@@ -1,0 +1,21 @@
+@page { size: Letter; margin: 0.75in; }
+body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 10.5pt; line-height: 1.4; color:#111; max-width:none; margin:0; }
+header { text-align:center; margin-bottom: 1em; }
+h1.title { font-size: 17pt; margin-bottom: 2px; } p.subtitle{font-size:12pt;margin:2px} p.date{margin:2px}
+h1 { font-size: 14pt; border-bottom: 2px solid #500000; padding-bottom: 2px; margin-top: 1.4em; color:#500000; }
+h2 { font-size: 12pt; }
+table { border-collapse: collapse; width: 100%; margin: 0.6em 0; font-size: 9.2pt; page-break-inside: avoid; }
+th, td { border: 1px solid #999; padding: 3px 5px; vertical-align: top; text-align:left; }
+th { background: #eee; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.6pt; word-break: break-all; }
+pre { background: #f4f4f4; border: 1px solid #ddd; padding: 6px; font-size: 8.2pt; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { word-break: normal; }
+figure { text-align:center; margin: 0.6em 0; page-break-inside: avoid; }
+figcaption { font-size: 9pt; color:#444; }
+img { max-width: 100%; }
+.todo { background: #fff3a0; border: 1px dashed #b59a00; padding: 4px 6px; margin: 0.5em 0; font-size: 9.5pt; }
+span.todo { padding: 0 3px; border:none; }
+.pagebreak { page-break-before: always; }
+.t5 table td:nth-child(1), .t5 table th:nth-child(1) { width: 17%; white-space: nowrap; }
+.t5 table td:nth-child(2), .t5 table th:nth-child(2) { width: 53%; }
+.t5 p, .t5 li { margin: 0.45em 0; }
